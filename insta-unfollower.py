@@ -21,6 +21,7 @@ session_cache = '%s/session.txt' % (cache_dir)
 followers_cache = '%s/followers.json' % (cache_dir)
 following_cache = '%s/following.json' % (cache_dir)
 keep_following_cache = '%s/keep_following.json' % (cache_dir)
+unfollowed_cache = '%s/unfollowed.json' % (cache_dir)
 
 instagram_url = 'https://www.instagram.com'
 login_route = '%s/accounts/login/ajax/' % (instagram_url)
@@ -261,6 +262,12 @@ def main():
         with open(followers_cache, 'w') as f:
             json.dump(followers_list, f)
 
+    unfollowed_list = []
+    if os.path.isfile(unfollowed_cache):
+        with open(unfollowed_cache, 'r') as f:
+            unfollowed_list = json.load(f)
+            print('unfollowed list loaded from cache file')
+
     keep_following_list = []
     if os.path.isfile(keep_following_cache):
         with open(keep_following_cache, 'r') as f:
@@ -286,6 +293,9 @@ def main():
             print('Username: {}'.format(user['username']))
             print('View profile: https://instagram.com/{}/'.format(user['username']))
             if click.confirm('Do you want to unfollow {}?'.format(user['username']), default=True):
+                with open(unfollowed_cache, 'w') as f:
+                    unfollowed_list.append(user)
+                    json.dump(unfollowed_list, f)
                 print('You are not following {} anymore!'.format(user['username']))
             else:
                 with open(keep_following_cache, 'w') as f:
