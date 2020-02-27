@@ -282,10 +282,10 @@ def main():
             if not os.environ.get('UNFOLLOW_VERIFIED') and user['is_verified'] == True:
                 continue
 
-            time.sleep(random.randint(2, 4))
+            # time.sleep(random.randint(2, 4))
 
             while unfollow(user) == False:
-                time.sleep(random.randint(1, 3) * 1000) # High number on purpose
+                time.sleep(random.randint(1, 3) * 300) # High number on purpose
 
         print(' done')
 
