@@ -286,6 +286,10 @@ def main():
 
         print(' done')
 
+    print(' cleaning')
+    os.remove(session_cache)
+    os.remove(followers_cache)
+    os.remove(following_cache)
     is_logged_out = logout()
     if is_logged_out:
         sys.exit(0)
