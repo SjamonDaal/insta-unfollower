@@ -8,6 +8,7 @@ import random
 import requests, pickle
 import json
 import re
+import click
 from dotenv import load_dotenv
 if os.path.isfile('.env'):
     print ("Using .env file. Remove this file if your are running in docker!")
@@ -266,8 +267,15 @@ def main():
 
     if len(unfollow_users_list) > 0:
         print('Begin to unfollow users...')
+        print('')
 
         for user in unfollow_users_list:
+            if click.confirm('Do you want to unfollow {}?'.format(user['username']), default=True):
+                print('Unfollowing {} now!'.format(user['username']))
+            else:
+                print('Skipping {}!'.format(user['username']))
+                continue
+
             if not os.environ.get('UNFOLLOW_VERIFIED') and user['is_verified'] == True:
                 continue
 
