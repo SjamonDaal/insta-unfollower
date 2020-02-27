@@ -270,8 +270,11 @@ def main():
         print('')
 
         for user in unfollow_users_list:
+            print('----')
+            print('Username: {}'.format(user['username']))
+            print('View profile: https://instagram.com/{}/'.format(user['username']))
             if click.confirm('Do you want to unfollow {}?'.format(user['username']), default=True):
-                print('Unfollowing {} now!'.format(user['username']))
+                print('You are not following {} anymore!'.format(user['username']))
             else:
                 print('Skipping {}!'.format(user['username']))
                 continue
