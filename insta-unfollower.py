@@ -8,6 +8,12 @@ import random
 import requests, pickle
 import json
 import re
+from dotenv import load_dotenv
+if os.path.isfile('.env'):
+    print ("Using .env file. Remove this file if your are running in docker!")
+    load_dotenv()
+else:
+    print ("Using system environement variables. Create a .env if needed!")
 
 cache_dir = 'cache'
 session_cache = '%s/session.txt' % (cache_dir)
