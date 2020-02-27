@@ -9,6 +9,7 @@ import requests, pickle
 import json
 import re
 import click
+import webbrowser
 from dotenv import load_dotenv
 if os.path.isfile('.env'):
     print ("Using .env file. Remove this file if your are running in docker!")
@@ -291,6 +292,9 @@ def main():
         for user in unfollow_users_list:
             print('----')
             print('Username: {}'.format(user['username']))
+            print('Private: {}'.format(user['is_private']))
+            if user['is_private'] == True:
+                webbrowser.open_new('https://instagram.com/{}/'.format(user['username']))
             print('View profile: https://instagram.com/{}/'.format(user['username']))
             if click.confirm('Do you want to unfollow {}?'.format(user['username']), default=True):
                 with open(unfollowed_cache, 'w') as f:
