@@ -314,7 +314,7 @@ def main():
             # time.sleep(random.randint(2, 4))
 
             while unfollow(user) == False:
-                time.sleep(random.randint(1, 3) * 300) # High number on purpose
+                time.sleep(random.randint(1, 3) * 30) # High number on purpose
 
         print(' done')
 
