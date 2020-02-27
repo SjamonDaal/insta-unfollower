@@ -20,6 +20,7 @@ cache_dir = 'cache'
 session_cache = '%s/session.txt' % (cache_dir)
 followers_cache = '%s/followers.json' % (cache_dir)
 following_cache = '%s/following.json' % (cache_dir)
+keep_following_cache = '%s/keep_following.json' % (cache_dir)
 
 instagram_url = 'https://www.instagram.com'
 login_route = '%s/accounts/login/ajax/' % (instagram_url)
@@ -260,7 +261,18 @@ def main():
         with open(followers_cache, 'w') as f:
             json.dump(followers_list, f)
 
-    unfollow_users_list = [user for user in following_list if user not in followers_list]
+    keep_following_list = []
+    if os.path.isfile(keep_following_cache):
+        with open(keep_following_cache, 'r') as f:
+            keep_following_list = json.load(f)
+            print('keep_followers list loaded from cache file')
+
+    if len(keep_following_list) != connected_user['edge_followed_by']['count']:
+        with open(keep_following_cache, 'w') as f:
+            json.dump(keep_following_list, f)
+
+    nofollow_users_list = [user for user in following_list if user not in followers_list]
+    unfollow_users_list = [user for user in nofollow_users_list if user not in keep_following_list]
     print('you are following {} user(s) who aren\'t following you:'.format(len(unfollow_users_list)))
     for user in unfollow_users_list:
         print(user['username'])
@@ -276,6 +288,9 @@ def main():
             if click.confirm('Do you want to unfollow {}?'.format(user['username']), default=True):
                 print('You are not following {} anymore!'.format(user['username']))
             else:
+                with open(keep_following_cache, 'w') as f:
+                    keep_following_list.append(user)
+                    json.dump(keep_following_list, f)
                 print('Skipping {}!'.format(user['username']))
                 continue
 
