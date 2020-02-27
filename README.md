@@ -6,6 +6,8 @@ Insta Unfollower
 
 An Instagram script, allowing you to automatically unfollow accounts you are following but that doesn't follow you back. Without using the Instagram API.
 
+### This project will be modified to my needs, when a account is found that doen't follow you, first ask if you want to unfollow or keep following this account. Awnser [Y] to unfollow or [n] to keep following. This doen't work with docker.
+
 ## Installation
 ### With Docker
 ```
